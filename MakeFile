@@ -1,0 +1,8 @@
+build-image:
+    @ docker build -f Dockerfile -t grasshoppeplus:v1 . --no-cache
+volume:
+    @ docker volume create grasshopperplus
+deploy:
+    @ docker stack deploy --with-registry-auth -c docker-compose.yml grasshopperplus
+rm:
+    @ docker stack rm grasshopperplus

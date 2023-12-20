@@ -1,16 +1,14 @@
-FROM eclipse-temurin:17
+# FROM eclipse-temurin:17
+# LABEL author=grasshopperplus
+# COPY target/twitter-clone-0.0.1-SNAPSHOT.jar grasshopperback.jar
+# EXPOSE 4000
+# ENTRYPOINT [ "java", "-jar", "grasshopperback.jar" ]
 
-LABEL author=grasshopperplus
+# FROM openjdk:17-jdk-alpine
+# COPY target/twitter-clone-0.0.1-SNAPSHOT.jar grasshopperback.jar
+# ENTRYPOINT ["java", "-jar", "grasshopperback.jar"]
 
-COPY target/twitter-clone-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
-
-# FROM alpine:latest
-# RUN apk add openjdk17
-
-# RUN apk update
-# RUN apk upgrade --available && sync 
-# RUN mkdir -p /app
-# COPY target/*jar /app/.
-# CMD ["/bin/sh", "-c", "java -jar /app/*jar"]
+FROM openjdk:17
+ARG JAR_FILE=target/*jar
+COPY ${JAR_FILE} twitter-clone-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "twitter-clone-0.0.1-SNAPSHOT.jar"]

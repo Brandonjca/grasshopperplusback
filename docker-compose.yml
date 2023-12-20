@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  mydatabase:
+    container_name: mydatabase
+    image: postgres:13.1-alpine
+    environment:
+      POSTGRES_DB: hopperplus
+      POSTGRES_PASSWORD: ESSKEETIT1
+      POSTGRES_USER: postgres
+    volumes:
+      - grasshopperplus:/var/lib/postgresql/data
+    networks:
+      - grasshopperpi_net
+
+  mybackend:
+    image: grasshopperback:v1
+    build:
+      context: .
+    container_name: grasshopperback
+    depends_on:
+      - mydatabase
+    environment:
+      - spring.datasource.url=jdbc:postgresql://mydatabase:5432/hopperplus
+      - spring.datasource.username=postgres
+      - spring.datasource.password=ESSKEETIT1
+    ports:
+      - "8083:8083"
+    networks:
+      - grasshopperpi_net
+
+  myfrontend:
+    depends_on:
+      - mybackend
+    image: grasshopperfront:v1
+    ports:
+      - 80:80
+    networks:
+      - grasshopperpi_net
+
+volumes:
+  grasshopperplus:
+    external: false
+
+networks:
+  grasshopperpi_net:
+    external: false
+
+secrets:
+  db_dev_pass:
+    external: true
