@@ -14,7 +14,7 @@ services:
       - grasshopperpi_net
 
   mybackend:
-    image: grasshopperback:v1
+    image: grasshopperback:v2
     build:
       context: .
     container_name: grasshopperback
